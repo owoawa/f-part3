@@ -3,7 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 const url = process.env.MONGODB_URI
 
-mongoose.connect(url).then(() => console.log("Connected to DB")).catch(err => console.log(err))
+mongoose.connect(url).then(() => console.log('Connected to DB')).catch(err => console.log(err))
 
 const personSchema = new mongoose.Schema({
     name:{
