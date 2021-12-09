@@ -1,13 +1,23 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 
-const url = "mongodb://test:test@cluster0-shard-00-00.mlsx3.mongodb.net:27017,cluster0-shard-00-01.mlsx3.mongodb.net:27017,cluster0-shard-00-02.mlsx3.mongodb.net:27017/phonebook?ssl=true&replicaSet=atlas-9igbcr-shard-0&authSource=admin&retryWrites=true&w=majority"
+const url = process.env.MONGODB_URI
 
 mongoose.connect(url).then(() => console.log("Connected to DB")).catch(err => console.log(err))
 
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+    name:{
+        type: String,
+        required: true,
+        unique: true,
+    },
+    number: {
+        type: String,
+        required: true,
+    }
 })
+
+personSchema.plugin(uniqueValidator)
 
 personSchema.set('toJSON', {
     transform: (document, returnedObject) => {
