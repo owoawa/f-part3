@@ -1,4 +1,5 @@
-const { response } = require('express')
+require('dotenv').config()
+// const { response } = require('express')
 const express = require('express')
 const morgan = require('morgan')
 const Person = require('./models/person')
@@ -59,7 +60,7 @@ app.delete('/api/persons/:id', (request, response) => {
     Person.findByIdAndRemove(request.params.id).then(() => response.status(204).end()).catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body
 
     // if(!body.name || !body.number) return response.status(400).json({ error: 'name or number are missing'})
@@ -73,7 +74,7 @@ app.post('/api/persons', (request, response) => {
     })
 
     // persons = persons.concat(person)
-    person.save().then(savedPerson => response.json(savedPerson))
+    person.save().then(savedPerson => response.json(savedPerson)).catch(error => next(error))
 
 })
 
