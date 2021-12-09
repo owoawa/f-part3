@@ -5,7 +5,7 @@ const morgan = require('morgan')
 const Person = require('./models/person')
 const app = express()
 
-app.use(express.static('phonebook_backend'))
+app.use(express.static('web'))
 app.use(express.json())
 morgan.token('body', (req, res) => JSON.stringify(req.body));
 app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body - :req[content-length]'));
@@ -92,6 +92,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
     if (error.name === 'CastError') return response.status(400).send({error: 'malformatted id'})
+    if (error.name === 'ValidationError') return response.status(400).json({ error: error.message })
     next(error)
 }
 
