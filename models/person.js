@@ -8,11 +8,13 @@ mongoose.connect(url).then(() => console.log("Connected to DB")).catch(err => co
 const personSchema = new mongoose.Schema({
     name:{
         type: String,
+        minLength: 3,
         required: true,
         unique: true,
     },
     number: {
         type: String,
+        minLength: 8,
         required: true,
     }
 })
